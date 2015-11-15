@@ -53,3 +53,21 @@ GRAYLOG_MONGO_URI    | Mongo URI of the MongoDB node (example: mongodb://mongo:2
 GRAYLOG_NODE_ID      | Set server node ID (default: random)
 GRAYLOG_SERVER_SECRET| Set salt for encryption
 
+Persist data
+------------
+In order to persist log data and configuration settings mount the Graylog data directory outside the container:
+
+All log data should be logged to the stdout/stderr according docker image recommendations
+```
+$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp -e GRAYLOG_NODE_ID=some-rand-omeu-uidasnodeid -e GRAYLOG_SERVER_SECRET=somesecretsaltstring -v `pwd`/graylog-data:/opt/graylog-server/data  sagent/graylog
+```
+
+Please make sure that you always use the same node-ID and server secret. Otherwise your users can't login or inputs will not be started after creating a new container on old data.
+
+Other volumes to persist:
+
+Path                 | Description
+---------------------|-----------------------------------------------------------------
+/opt/graylog/data    | Raw log data (Kafka)
+/opt/graylog/plugin  | Graylog server plugins
+
