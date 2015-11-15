@@ -53,10 +53,9 @@ fi
 if [ ! -z "$GRAYLOG_NODE_ID" ]; then
 	echo $GRAYLOG_NODE_ID > /etc/graylog/server/node-id
 fi
-if [ ! -z "$GRAYLOG_MASTER" ]; then
-	graylog-ctl set-cluster-master $GRAYLOG_MASTER
-fi
-
+# if [ ! -z "$GRAYLOG_MASTER" ]; then
+# 	graylog-ctl set-cluster-master $GRAYLOG_MASTER
+# fi
 
 WEB_CONFIG_FILE=/opt/graylog-web-interface/conf/graylog-web-interface.conf
 sed -i -e "s/application.secret=.*$/application.secret=\"${GRAYLOG_SERVER_SECRET:=$(pwgen -s 96)}\"/" $WEB_CONFIG_FILE
