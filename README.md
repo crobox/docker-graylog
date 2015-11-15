@@ -1,9 +1,10 @@
 # Graylog server and web-interface docker image
 
 Docker image containing only the Graylog server and web interface, you need to setup MongoDB and Elasticsearch in seperate envirnments and configure them respectivly (using environment variables)
-
-  $ docker pull sagent/graylog
-  $ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp sagent/graylog
+```
+$ docker pull sagent/graylog
+$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp sagent/graylog
+```
 
 To run the container in the background replace `-t` with `-d`.
 
@@ -33,8 +34,9 @@ Additional options
 You can configure the most important aspects of your Graylog instance through environment variables. In order
 to set a variable add a `-e VARIABLE_NAME` option to your `docker run` command. For example to set another admin password
 start your container like this::
-
-  $ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp -e GRAYLOG_PASSWORD=SeCuRePwD sagent/graylog
+```
+$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp -e GRAYLOG_PASSWORD=SeCuRePwD sagent/graylog
+```
 
 Variable Name        | Configuration Option
 ---------------------|---------------------------
