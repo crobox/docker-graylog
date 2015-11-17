@@ -30,7 +30,7 @@ if [ ! -z "$GRAYLOG_RETENTION_INDICES" ]; then
 	sed -i -e "s/rotation_strategy =.*$/rotation_strategy = size/" $CONFIG_FILE
 	sed -i -e "s/elasticsearch_max_docs_per_index =.*$/#elasticsearch_max_docs_per_index = /" $CONFIG_FILE
 	sed -i -e "s/#elasticsearch_max_size_per_index =.*$/elasticsearch_max_size_per_index = 4294967296/" $CONFIG_FILE
-	sed -i -e "s/elasticsearch_max_number_of_indices =.*$/elasticsearch_max_number_of_indices = /" $CONFIG_FILE
+	sed -i -e "s/elasticsearch_max_number_of_indices =.*$/elasticsearch_max_number_of_indices = $GRAYLOG_RETENTION_INDICES/" $CONFIG_FILE
 fi
 
 if [ ! -z "$GRAYLOG_ES_PREFIX" ]; then
