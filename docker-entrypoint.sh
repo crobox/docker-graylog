@@ -26,11 +26,20 @@ fi
 if [ ! -z "$GRAYLOG_SMTP_PASSWORD" ]; then
 	sed -i -e "s/#transport_email_auth_password =.*$/transport_email_auth_password = $GRAYLOG_SMTP_PASSWORD/" $CONFIG_FILE
 fi
+
 if [ ! -z "$GRAYLOG_RETENTION_INDICES" ]; then
 	sed -i -e "s/rotation_strategy =.*$/rotation_strategy = size/" $CONFIG_FILE
 	sed -i -e "s/elasticsearch_max_docs_per_index =.*$/#elasticsearch_max_docs_per_index = /" $CONFIG_FILE
 	sed -i -e "s/#elasticsearch_max_size_per_index =.*$/elasticsearch_max_size_per_index = 4294967296/" $CONFIG_FILE
 	sed -i -e "s/elasticsearch_max_number_of_indices =.*$/elasticsearch_max_number_of_indices = $GRAYLOG_RETENTION_INDICES/" $CONFIG_FILE
+fi
+
+if [ ! -z "$GRAYLOG_ES_SHARDS" ]; then
+	sed -i -e "s/elasticsearch_shards =.*$/elasticsearch_shards = $GRAYLOG_ES_SHARDS/" $CONFIG_FILE
+fi
+
+if [ ! -z "$GRAYLOG_ES_REPLICAS" ]; then
+	sed -i -e "s/elasticsearch_replicas =.*$/elasticsearch_replicas = $GRAYLOG_ES_REPLICAS/" $CONFIG_FILE
 fi
 
 if [ ! -z "$GRAYLOG_ES_PREFIX" ]; then

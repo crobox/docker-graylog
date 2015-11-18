@@ -45,7 +45,9 @@ GRAYLOG_SMTP_SERVER  | Hostname/IP address of your SMTP server for sending alert
 GRAYLOG_SMTP_PORT    | Port of your SMTP server
 GRAYLOG_SMTP_USER    | User to use for SMTP
 GRAYLOG_SMTP_PASSWORD|Password to use for SMTP
-GRAYLOG_RETENTION_INDICES | Configure how many indices should be kept(default: 20) an index is max 4GB each
+GRAYLOG_RETENTION_INDICES | Configure how many indices should be kept (default: 20) each index is set to 4GB max size
+GRAYLOG_ES_SHARDS    | Number of shards to allocate for new indices (default: 4)
+GRAYLOG_ES_REPLICAS  | Number of replicas to use for new indinces (default: 0)
 GRAYLOG_ES_PREFIX    | Prefix for all Elasticsearch indices and index aliases managed by Graylog.
 GRAYLOG_ES_CLUSTER   | Name of the cluster.name of Elasticsearch (default: graylog)
 GRAYLOG_ES_NODES     | Comma separated list of Elasticsearch nodes (example: esnode1:9300,esnode2:9300)
