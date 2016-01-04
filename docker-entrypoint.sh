@@ -69,7 +69,7 @@ fi
 WEB_CONFIG_FILE=/opt/graylog-web-interface/conf/graylog-web-interface.conf
 sed -i -e "s/application.secret=.*$/application.secret=\"${GRAYLOG_SERVER_SECRET:=$(pwgen -s 96)}\"/" $WEB_CONFIG_FILE
 sed -i -e "s@graylog2-server.uris=.*@graylog2-server.uris=\"http://localhost:12900/\"@" $WEB_CONFIG_FILE
-
+sed -i -e "s/timeout.DEFAULT.*$/timeout.DEFAULT=15s/" $WEB_CONFIG_FILE
 /opt/graylog-web-interface/bin/graylog-web-interface &
 
 
