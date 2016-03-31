@@ -65,6 +65,11 @@ fi
 # if [ ! -z "$GRAYLOG_MASTER" ]; then
 # 	graylog-ctl set-cluster-master $GRAYLOG_MASTER
 # fi
+# Set heap to different value if specified
+if [ ! -z "$GRAYLOG_MEMORY" ]; then
+	sed -i -- "s/Xms1g/Xms$GRAYLOG_MEMORY/g" /opt/graylog-server/bin/graylogctl 
+	sed -i -- "s/Xmx1g/Xmx$GRAYLOG_MEMORY/g" /opt/graylog-server/bin/graylogctl
+fi
 
 WEB_CONFIG_FILE=/opt/graylog-web-interface/conf/graylog-web-interface.conf
 sed -i -e "s/application.secret=.*$/application.secret=\"${GRAYLOG_SERVER_SECRET:=$(pwgen -s 96)}\"/" $WEB_CONFIG_FILE
