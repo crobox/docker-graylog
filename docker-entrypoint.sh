@@ -71,6 +71,12 @@ if [ ! -z "$GRAYLOG_MEMORY" ]; then
 	sed -i -- "s/Xmx1g/Xmx$GRAYLOG_MEMORY/g" /opt/graylog-server/bin/graylogctl
 fi
 
+if [ -f /opt/graylog-web-interface-"$GRAYLOG_VERSION"/RUNNING_PID ]; then
+        rm -f /opt/graylog-web-interface-"$GRAYLOG_VERSION"/RUNNING_PID
+        echo "Delete Running Pid"
+fi
+
+
 WEB_CONFIG_FILE=/opt/graylog-web-interface/conf/graylog-web-interface.conf
 sed -i -e "s/application.secret=.*$/application.secret=\"${GRAYLOG_SERVER_SECRET:=$(pwgen -s 96)}\"/" $WEB_CONFIG_FILE
 sed -i -e "s@graylog2-server.uris=.*@graylog2-server.uris=\"http://localhost:12900/\"@" $WEB_CONFIG_FILE
