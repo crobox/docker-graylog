@@ -62,6 +62,15 @@ fi
 if [ ! -z "$GRAYLOG_NODE_ID" ]; then
 	echo $GRAYLOG_NODE_ID > /etc/graylog/server/node-id
 fi
+
+if [ ! -z "$GRAYLOG_TIMEZONE" ]; then
+        sed -i -e "s\#root_timezone =.*$\root_timezone = $GRAYLOG_TIMEZONE\\" $CONFIG_FILE
+fi
+
+if [ ! -z "$GRAYLOG_WILDCARD" ]; then
+	sed -i -e "s/allow_leading_wildcard_searches =.*$/allow_leading_wildcard_searches = $GRAYLOG_WILDCARD/" $CONFIG_FILE
+fi
+
 # if [ ! -z "$GRAYLOG_MASTER" ]; then
 # 	graylog-ctl set-cluster-master $GRAYLOG_MASTER
 # fi
@@ -70,6 +79,12 @@ if [ ! -z "$GRAYLOG_MEMORY" ]; then
 	sed -i -- "s/Xms1g/Xms$GRAYLOG_MEMORY/g" /opt/graylog-server/bin/graylogctl 
 	sed -i -- "s/Xmx1g/Xmx$GRAYLOG_MEMORY/g" /opt/graylog-server/bin/graylogctl
 fi
+
+if [ -f /opt/graylog-web-interface-"$GRAYLOG_VERSION"/RUNNING_PID ]; then
+        rm -f /opt/graylog-web-interface-"$GRAYLOG_VERSION"/RUNNING_PID
+        echo "Delete Running Pid"
+fi
+
 
 WEB_CONFIG_FILE=/opt/graylog-web-interface/conf/graylog-web-interface.conf
 sed -i -e "s/application.secret=.*$/application.secret=\"${GRAYLOG_SERVER_SECRET:=$(pwgen -s 96)}\"/" $WEB_CONFIG_FILE
