@@ -2,8 +2,8 @@
 
 Docker image containing only the Graylog server and web interface, you need to setup MongoDB and Elasticsearch in seperate envirnments and configure them respectivly (using environment variables)
 ```
-$ docker pull sagent/graylog
-$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp sagent/graylog
+$ docker pull cmer81/docker-graylog
+$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp cmer81/docker-graylog
 ```
 
 To run the container in the background replace `-t` with `-d`.
@@ -35,7 +35,7 @@ You can configure the most important aspects of your Graylog instance through en
 to set a variable add a `-e VARIABLE_NAME` option to your `docker run` command. For example to set another admin password
 start your container like this::
 ```
-$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp -e GRAYLOG_PASSWORD=SeCuRePwD sagent/graylog
+$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp -e GRAYLOG_PASSWORD=SeCuRePwD cmer81/docker-graylog
 ```
 
 Variable Name        | Configuration Option
@@ -54,6 +54,8 @@ GRAYLOG_ES_NODES     | Comma separated list of Elasticsearch nodes (example: esn
 GRAYLOG_MONGO_URI    | Mongo URI of the MongoDB node (example: mongodb://mongo:27017/graylog)
 GRAYLOG_NODE_ID      | Set server node ID (default: random)
 GRAYLOG_SERVER_SECRET| Set salt for encryption
+GRAYLOG_TIMEZONE     | Set timezone (TZ) you are in, exemple (Europe\Paris) Default is UTC
+GRAYLOG_WILDCARD     | Do you want to allow searches with leading wildcards? This can be extremely resource hungry and should only be enabled with care. (default is false)
 
 Persist data
 ------------
@@ -61,7 +63,7 @@ In order to persist log data and configuration settings mount the Graylog data d
 
 All log data should be logged to the stdout/stderr according docker image recommendations
 ```
-$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp -e GRAYLOG_NODE_ID=some-rand-omeu-uidasnodeid -e GRAYLOG_SERVER_SECRET=somesecretsaltstring -v `pwd`/graylog-data:/opt/graylog-server/data  sagent/graylog
+$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp -e GRAYLOG_NODE_ID=some-rand-omeu-uidasnodeid -e GRAYLOG_SERVER_SECRET=somesecretsaltstring -v `pwd`/graylog-data:/opt/graylog-server/data  cmer81/docker-graylog
 ```
 
 Please make sure that you always use the same node-ID and server secret. Otherwise your users can't login or inputs will not be started after creating a new container on old data.
@@ -72,4 +74,3 @@ Path                 | Description
 ---------------------|-----------------------------------------------------------------
 /opt/graylog/data    | Raw log data (Kafka)
 /opt/graylog/plugin  | Graylog server plugins
-

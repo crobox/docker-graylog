@@ -62,6 +62,15 @@ fi
 if [ ! -z "$GRAYLOG_NODE_ID" ]; then
 	echo $GRAYLOG_NODE_ID > /etc/graylog/server/node-id
 fi
+
+if [ ! -z "$GRAYLOG_TIMEZONE" ]; then
+        sed -i -e "s\#root_timezone =.*$\root_timezone = $GRAYLOG_TIMEZONE\\" $CONFIG_FILE
+fi
+
+if [ ! -z "$GRAYLOG_WILDCARD" ]; then
+	sed -i -e "s/allow_leading_wildcard_searches =.*$/allow_leading_wildcard_searches = $GRAYLOG_WILDCARD/" $CONFIG_FILE
+fi
+
 # if [ ! -z "$GRAYLOG_MASTER" ]; then
 # 	graylog-ctl set-cluster-master $GRAYLOG_MASTER
 # fi
