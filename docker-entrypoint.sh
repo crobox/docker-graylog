@@ -5,6 +5,7 @@ CONFIG_FILE=/etc/graylog/server/server.conf
 
 sed -i -e "s/password_secret =\s*$/password_secret = ${GRAYLOG_SERVER_SECRET:=$(pwgen -s 96)}/" $CONFIG_FILE
 sed -i -e "s/rest_listen_uri =.*$/rest_listen_uri = http:\/\/0.0.0.0:12900\//" $CONFIG_FILE
+sed -i -e "s/#web_listen_uri =.*$/web_listen_uri = http:\/\/0.0.0.0:9000\//" $CONFIG_FILE
 
 if [ ! -z "$GRAYLOG_PASSWORD" ]; then
 	sed -i -e "s/root_password_sha2 =$/root_password_sha2 = $(echo -n $GRAYLOG_PASSWORD | sha256sum | awk '{print $1}')/" $CONFIG_FILE
@@ -25,13 +26,6 @@ if [ ! -z "$GRAYLOG_SMTP_USER" ]; then
 fi
 if [ ! -z "$GRAYLOG_SMTP_PASSWORD" ]; then
 	sed -i -e "s/#transport_email_auth_password =.*$/transport_email_auth_password = $GRAYLOG_SMTP_PASSWORD/" $CONFIG_FILE
-fi
-
-if [ ! -z "$GRAYLOG_RETENTION_INDICES" ]; then
-	sed -i -e "s/rotation_strategy =.*$/rotation_strategy = size/" $CONFIG_FILE
-	sed -i -e "s/elasticsearch_max_docs_per_index =.*$/#elasticsearch_max_docs_per_index = /" $CONFIG_FILE
-	sed -i -e "s/#elasticsearch_max_size_per_index =.*$/elasticsearch_max_size_per_index = 4294967296/" $CONFIG_FILE
-	sed -i -e "s/elasticsearch_max_number_of_indices =.*$/elasticsearch_max_number_of_indices = $GRAYLOG_RETENTION_INDICES/" $CONFIG_FILE
 fi
 
 if [ ! -z "$GRAYLOG_ES_SHARDS" ]; then
@@ -62,20 +56,13 @@ fi
 if [ ! -z "$GRAYLOG_NODE_ID" ]; then
 	echo $GRAYLOG_NODE_ID > /etc/graylog/server/node-id
 fi
-# if [ ! -z "$GRAYLOG_MASTER" ]; then
-# 	graylog-ctl set-cluster-master $GRAYLOG_MASTER
-# fi
+
 # Set heap to different value if specified
 if [ ! -z "$GRAYLOG_MEMORY" ]; then
-	sed -i -- "s/Xms1g/Xms$GRAYLOG_MEMORY/g" /opt/graylog-server/bin/graylogctl 
-	sed -i -- "s/Xmx1g/Xmx$GRAYLOG_MEMORY/g" /opt/graylog-server/bin/graylogctl
+	sed -i -- "s/Xms1g/Xms$GRAYLOG_MEMORY/g" /opt/graylog/bin/graylogctl
+	sed -i -- "s/Xmx1g/Xmx$GRAYLOG_MEMORY/g" /opt/graylog/bin/graylogctl
 fi
 
-WEB_CONFIG_FILE=/opt/graylog-web-interface/conf/graylog-web-interface.conf
-sed -i -e "s/application.secret=.*$/application.secret=\"${GRAYLOG_SERVER_SECRET:=$(pwgen -s 96)}\"/" $WEB_CONFIG_FILE
-sed -i -e "s@graylog2-server.uris=.*@graylog2-server.uris=\"http://localhost:12900/\"@" $WEB_CONFIG_FILE
-sed -i -e "s/timeout.DEFAULT.*$/timeout.DEFAULT=15s/" $WEB_CONFIG_FILE
-/opt/graylog-web-interface/bin/graylog-web-interface &
+sed -i -e "s/#http_connect_timeout=.*$/http_connect_timeout=10s/" $CONFIG_FILE
 
-
-/opt/graylog-server/bin/graylogctl run
+/opt/graylog/bin/graylogctl run
