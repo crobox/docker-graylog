@@ -6,6 +6,7 @@ CONFIG_FILE=/etc/graylog/server/server.conf
 sed -i -e "s/password_secret =\s*$/password_secret = ${GRAYLOG_SERVER_SECRET:=$(pwgen -s 96)}/" $CONFIG_FILE
 sed -i -e "s/rest_listen_uri =.*$/rest_listen_uri = http:\/\/0.0.0.0:12900\//" $CONFIG_FILE
 sed -i -e "s/#web_listen_uri =.*$/web_listen_uri = http:\/\/0.0.0.0:9000\//" $CONFIG_FILE
+sed -i -e "s/#elasticsearch_network_host =.*$/elasticsearch_network_host = 0.0.0.0/" $CONFIG_FILE
 
 if [ ! -z "$GRAYLOG_PASSWORD" ]; then
 	sed -i -e "s/root_password_sha2 =$/root_password_sha2 = $(echo -n $GRAYLOG_PASSWORD | sha256sum | awk '{print $1}')/" $CONFIG_FILE
