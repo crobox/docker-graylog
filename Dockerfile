@@ -1,7 +1,7 @@
 # Based on debian jessie (8)
 FROM java:8
 
-ENV GRAYLOG_VERSION 2.0.0-rc.1
+ENV GRAYLOG_VERSION 2.0.0
 
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
