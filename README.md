@@ -35,7 +35,7 @@ You can configure the most important aspects of your Graylog instance through en
 to set a variable add a `-e VARIABLE_NAME` option to your `docker run` command. For example to set another admin password
 start your container like this::
 ```
-$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp -e GRAYLOG_PASSWORD=SeCuRePwD sagent/graylog
+$ docker run -t -p 9000:9000 -p 12201:12201 -p 12201:12201/udp -e GRAYLOG_PASSWORD=SeCuRePwD crobox/graylog
 ```
 
 Variable Name        | Configuration Option
