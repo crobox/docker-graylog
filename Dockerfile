@@ -1,22 +1,5 @@
-# Based on debian jessie (8)
-FROM java:8
+FROM graylog2/server:2.3.1-1
 
-ENV GRAYLOG_VERSION 2.0.3
+RUN wget -O /usr/share/graylog/plugin/graylog-plugin-auth-sso-2.3.0.jar https://github.com/Graylog2/graylog-plugin-auth-sso/releases/download/2.3.0/graylog-plugin-auth-sso-2.3.0.jar
 
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
-		ca-certificates curl wget software-properties-common apt-transport-https pwgen \
-	&& rm -rf /var/lib/apt/lists/*
-
-RUN curl -L https://packages.graylog2.org/releases/graylog/graylog-$GRAYLOG_VERSION.tgz | tar xz -C /opt
-RUN ln -s /opt/graylog-$GRAYLOG_VERSION /opt/graylog
-
-
-RUN mkdir -p /etc/graylog/server
-RUN cp /opt/graylog/graylog.conf.example /etc/graylog/server/server.conf
-ADD log4j.xml /etc/graylog/server/log4j.xml
-
-ADD docker-entrypoint.sh /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
-
-VOLUME /opt/graylog/data
+# ADD log4j.xml /etc/graylog/server/log4j.xml
