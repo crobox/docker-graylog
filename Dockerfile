@@ -1,4 +1,4 @@
-FROM graylog2/server:2.3.1-1
+FROM graylog2/server:2.3.2-2
 
 RUN wget -O /usr/share/graylog/plugin/graylog-plugin-auth-sso-2.3.0.jar https://github.com/Graylog2/graylog-plugin-auth-sso/releases/download/2.3.0/graylog-plugin-auth-sso-2.3.0.jar
 
