@@ -1,3 +1,3 @@
-# Graylog server with SSO plugin
+# Graylog server with extras
 
-Default graylog image extended with SSO plugin
+Default graylog image extended with SSO plugin and GeoLite2 City database.
